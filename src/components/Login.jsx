@@ -102,8 +102,8 @@ const Login = () => {
 
       <div className="relative z-10">
         <Header />
-        <div className="flex flex-row items-center justify-center h-[calc(100vh-4rem)]">
-          <div className="bg-background/80 backdrop-blur-xs p-14 w-[calc(40vw-4rem)] rounded-md shadow-xl shadow-background/50">
+        <div className="flex flex-row items-center pl-3 pr-3 sm:pl-0 sm:pr-0 justify-center h-[calc(100vh-4rem)]">
+          <div className="bg-background/80 backdrop-blur-xs p-14 xl:w-[calc(40vw-4rem)] rounded-md shadow-xl shadow-background/50">
             <h2 className="text-3xl font-semibold">
               {isSignIn ? 'Sign In' : 'Sign Up'}
             </h2>

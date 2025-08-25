@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import MovieCard from './MovieCard';
 
 const MovieList = ({ title, movies }) => {
@@ -6,11 +6,45 @@ const MovieList = ({ title, movies }) => {
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 4;
+  const [scrollAmount, setScrollAmount] = useState(320);
+  const [itemsPerPage, setItemsPerPage] = useState(4);
+
+  // Update scroll amount and items per page based on screen size
+  useEffect(() => {
+    const updateScrollSettings = () => {
+      const width = window.innerWidth;
+
+      if (width < 640) {
+        // Mobile
+        setScrollAmount(280); // Card width + gap for mobile
+        setItemsPerPage(1);
+      } else if (width < 768) {
+        // Small tablet
+        setScrollAmount(300);
+        setItemsPerPage(2);
+      } else if (width < 1024) {
+        // Tablet
+        setScrollAmount(320);
+        setItemsPerPage(3);
+      } else if (width < 1280) {
+        // Desktop
+        setScrollAmount(320);
+        setItemsPerPage(4);
+      } else {
+        // Large desktop
+        setScrollAmount(320);
+        setItemsPerPage(5);
+      }
+    };
+
+    updateScrollSettings();
+    window.addEventListener('resize', updateScrollSettings);
+
+    return () => window.removeEventListener('resize', updateScrollSettings);
+  }, []);
 
   const scroll = (direction) => {
     const container = scrollRef.current;
-    const scrollAmount = 320; // Width of one card + gap
 
     if (direction === 'left') {
       container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
@@ -30,33 +64,39 @@ const MovieList = ({ title, movies }) => {
     );
 
     // Update current page based on scroll position
-    const newPage = Math.round(container.scrollLeft / (320 * itemsPerPage));
+    const newPage = Math.round(
+      container.scrollLeft / (scrollAmount * itemsPerPage)
+    );
     setCurrentPage(newPage);
   };
 
   return (
-    <div className="">
+    <div className="w-full">
       {/* Header with Navigation Buttons */}
-      <div className="px-6 py-4 flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold text-white mb-1">{title}</h1>
-          {/* <p className="text-gray-400">Discover the latest movies</p> */}
+      <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 flex justify-between items-center">
+        <div className="flex-1 min-w-0">
+          <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-1 truncate">
+            {title}
+          </h1>
+          {/* <p className="text-gray-400 text-sm hidden sm:block">Discover the latest movies</p> */}
         </div>
 
         {/* Navigation Buttons */}
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-shrink-0">
           {/* Left Arrow */}
           <button
             onClick={() => scroll('left')}
             disabled={!showLeftArrow}
-            className={`bg-transparent/80 hover:bg-transparent border-1 border-white text-white p-3 rounded-full backdrop-blur-sm transition-all duration-300 hover:scale-110 shadow-5xl ${
-              !showLeftArrow
-                ? 'opacity-50 cursor-not-allowed'
-                : 'cursor-pointer'
-            }`}
+            className={`bg-transparent/80 hover:bg-transparent border border-white text-white 
+                       p-2 sm:p-3 rounded-full backdrop-blur-sm transition-all duration-300 
+                       hover:scale-110 shadow-lg ${
+                         !showLeftArrow
+                           ? 'opacity-50 cursor-not-allowed'
+                           : 'cursor-pointer hover:border-primary'
+                       }`}
           >
             <svg
-              className="w-2 h-2"
+              className="w-3 h-3 sm:w-4 sm:h-4"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -64,7 +104,7 @@ const MovieList = ({ title, movies }) => {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth={5}
+                strokeWidth={3}
                 d="M15 19l-7-7 7-7"
               />
             </svg>
@@ -74,14 +114,16 @@ const MovieList = ({ title, movies }) => {
           <button
             onClick={() => scroll('right')}
             disabled={!showRightArrow}
-            className={`bg-transparent/80 hover:bg-transparent border-1 border-white text-white p-3 rounded-full backdrop-blur-sm transition-all duration-300 hover:scale-110 shadow-5xl ${
-              !showRightArrow
-                ? 'opacity-50 cursor-not-allowed'
-                : 'cursor-pointer'
-            }`}
+            className={`bg-transparent/80 hover:bg-transparent border border-white text-white 
+                       p-2 sm:p-3 rounded-full backdrop-blur-sm transition-all duration-300 
+                       hover:scale-110 shadow-lg ${
+                         !showRightArrow
+                           ? 'opacity-50 cursor-not-allowed'
+                           : 'cursor-pointer hover:border-primary'
+                       }`}
           >
             <svg
-              className="w-2 h-2"
+              className="w-3 h-3 sm:w-4 sm:h-4"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -89,7 +131,7 @@ const MovieList = ({ title, movies }) => {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth={5}
+                strokeWidth={3}
                 d="M9 5l7 7-7 7"
               />
             </svg>
@@ -98,12 +140,13 @@ const MovieList = ({ title, movies }) => {
       </div>
 
       {/* Movie Carousel */}
-      <div className="px-6 pb-8">
+      <div className="px-3 sm:px-4 md:px-6 pb-6 sm:pb-8">
         {/* Carousel Container */}
         <div
           ref={scrollRef}
           onScroll={handleScroll}
-          className="flex gap-4 overflow-x-auto scrollbar-hide pb-4 scroll-smooth"
+          className="flex gap-2 sm:gap-3 md:gap-4 overflow-x-auto scrollbar-hide pb-4 scroll-smooth
+                     snap-x snap-mandatory"
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
@@ -111,7 +154,9 @@ const MovieList = ({ title, movies }) => {
           }}
         >
           {movies.map((movie, index) => (
-            <MovieCard key={movie.id + index} movie={movie} />
+            <div key={movie.id + index} className="flex-shrink-0 snap-start">
+              <MovieCard movie={movie} />
+            </div>
           ))}
         </div>
       </div>

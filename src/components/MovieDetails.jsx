@@ -216,7 +216,7 @@ const MovieDetails = () => {
 
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-4">
-                <button className="bg-gradient-to-r from-primary to-accent text-white font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-primary/25 hover:scale-105 transition-all duration-300 flex items-center gap-2">
+                <button className="bg-gradient-to-r from-primary to-accent text-white font-semibold px-4 py-2 sm:px-8 sm:py-3 rounded-xl shadow-lg hover:shadow-primary/25 hover:scale-105 transition-all duration-300 flex items-center gap-2">
                   <svg
                     className="w-5 h-5"
                     fill="currentColor"
@@ -253,7 +253,7 @@ const MovieDetails = () => {
                     href={homepage}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-gray-800/80 text-white font-semibold px-8 py-3 rounded-xl border border-gray-600 hover:bg-gray-700/80 hover:border-accent/50 transition-all duration-300 flex items-center gap-2"
+                    className="bg-gray-800/80 text-white font-semibold px-4 py-2 sm:px-8 sm:py-3 rounded-xl border border-gray-600 hover:bg-gray-700/80 hover:border-accent/50 transition-all duration-300 flex items-center gap-2"
                   >
                     <svg
                       className="w-5 h-5"

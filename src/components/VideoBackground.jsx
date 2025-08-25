@@ -9,9 +9,9 @@ const VideoBackground = ({ id, title }) => {
   const data = useSelector((state) => state.movies?.trailerVideo);
 
   return (
-    <div className="w-screen">
+    <div className="w-full">
       <iframe
-        className="w-screen aspect-video"
+        className="w-full aspect-video"
         src={`${YOUTUBE_BASE_URL}${data?.key}?autoplay=1&mute=1&loop=1&playlist=${data?.key}`}
         title={title}
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

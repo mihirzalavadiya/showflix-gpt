@@ -39,8 +39,8 @@ const SecondaryContainer = () => {
   }
 
   return (
-    <div className="-mt-40 relative z-20">
-      <div className="pl-12">
+    <div className="lg:-mt-40 mt-[450px] sm:mt-[370px] md:mt-[200px] relative z-20">
+      <div className="pl-3 md:pl-12 sm:pl-4">
         {movies?.nowPlayingMovies && (
           <MovieList title="Now Playing" movies={movies.nowPlayingMovies} />
         )}
