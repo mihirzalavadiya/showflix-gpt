@@ -1,0 +1,32 @@
+import { useEffect } from 'react';
+import { API_OPTIONS } from '../utils/constants';
+import { useDispatch } from 'react-redux';
+import { setTrailerVideo } from '../redux/slice/moviesSlice';
+
+const useMovieVideo = (id) => {
+  const dispatch = useDispatch();
+  const fetchVideo = async () => {
+    try {
+      const res = await fetch(
+        `https://api.themoviedb.org/3/movie/${id}/videos`,
+        API_OPTIONS
+      );
+      const data = await res.json();
+      const filterData = data?.results.filter(
+        (video) => video.type === 'Trailer'
+      );
+      dispatch(
+        setTrailerVideo(
+          filterData?.length > 0 ? filterData[0] : data?.results[0]
+        )
+      );
+    } catch (error) {
+      console.error('Error fetching movies:', error);
+    }
+  };
+  useEffect(() => {
+    fetchVideo();
+  }, []);
+};
+
+export default useMovieVideo;
