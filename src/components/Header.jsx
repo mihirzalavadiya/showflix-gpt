@@ -16,8 +16,6 @@ const Header = () => {
   const user = useSelector((state) => state.user);
   const showGptSearch = useSelector((state) => state.gpt.showGptSearch);
 
-  console.log('user from header:', user);
-
   const logOutHandler = () => {
     signOut(auth)
       .then(() => {
