@@ -8,11 +8,7 @@ const useMoviesByName = (data) => {
 
   const fetchMovieByName = async (name) => {
     try {
-      const searchUrl = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(
-        name
-      )}`;
-
-      const res = await fetch(searchUrl, API_OPTIONS);
+      const res = await fetch(`/api/search?query=${encodeURIComponent(name)}`);
       const movies = await res.json();
       return movies;
     } catch (error) {

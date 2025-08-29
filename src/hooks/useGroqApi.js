@@ -48,20 +48,13 @@ const useGroqApi = (prompt) => {
       const gptPrompt = `${GLOBAL_PROMPT}\nUser Query: ${prompt}`;
 
       try {
-        const response = await fetch(
-          'https://api.groq.com/openai/v1/chat/completions',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
-            },
-            body: JSON.stringify({
-              model: 'meta-llama/llama-4-scout-17b-16e-instruct',
-              messages: [{ role: 'user', content: gptPrompt }],
-            }),
-          }
-        );
+        const response = await fetch('/api/groq', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ gptPrompt }),
+        });
 
         const json = await response.json();
         const parsedData = parseGroqContent(json.choices[0].message.content);

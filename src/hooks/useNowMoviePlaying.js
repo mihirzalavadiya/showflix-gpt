@@ -15,10 +15,7 @@ const useNowMoviePlaying = (type) => {
 
   const fetchMovies = async () => {
     try {
-      const res = await fetch(
-        `https://api.themoviedb.org/3/movie/${type}?page=1`,
-        API_OPTIONS
-      );
+      const res = await fetch(`/api/movies/${type}`);
       const data = await res.json();
 
       switch (type) {
@@ -51,6 +48,7 @@ const useNowMoviePlaying = (type) => {
   };
 
   useEffect(() => {
+    if (!type) return;
     fetchMovies();
   }, [type]);
 };
